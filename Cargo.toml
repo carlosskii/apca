@@ -1,6 +1,6 @@
 [package]
 name = "apca"
-version = "0.26.2"
+version = "0.27.2"
 edition = "2021"
 rust-version = "1.59"
 authors = ["Daniel Mueller <deso@posteo.net>"]
@@ -29,7 +29,7 @@ native-tls = ["tungstenite/native-tls", "dep:hyper-tls", "dep:native-tls"]
 rustls = ["hyper/tcp", "dep:hyper-rustls", "websocket-util/rustls", "tungstenite/__rustls-tls", "dep:rustls", "dep:webpki-roots"]
 
 [dependencies]
-async-compression = {version = "0.3.12", default-features = false, optional = true}
+async-compression = {version = "0.4", default-features = false, optional = true}
 async-trait = "0.1.51"
 chrono = {version = "0.4.19", features = ["serde"]}
 futures = {version = "0.3", default-features = false}

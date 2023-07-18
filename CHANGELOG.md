@@ -1,13 +1,26 @@
-Unreleased
-----------
+0.27.2
+------
+- Expanded crate documentation with a high level overview
+- Bumped `async-compression` dependency to `0.4`
+
+
+0.27.1
+------
+- Exported `api::v2::updates::{Authenticate,Listen}` enums as part of
+  unofficial unstable API
+
+
+0.27.0
+------
 - Added support for overwriting default realtime data bar, quote, and
   trade types
 - Added support for working with custom v2 realtime data streaming URLs
 - Added `FillOrKill` and `ImmediateOrCancel` variants to
   `api::v2::order::TimeInForce` type
-- Changed various `data::v2::stream::{Bar, Quote, Trade}` member from
+- Changed various `data::v2::stream::{Bar, Quote, Trade}` members from
   `u64` to `Num`
 - Switched to using new stream authentication request message format
+- Adjusted publish workflow to also create GitHub release and Git tag
 
 
 0.26.2
