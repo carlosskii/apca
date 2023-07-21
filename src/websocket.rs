@@ -12,7 +12,6 @@ use tracing::trace;
 use tracing::Level;
 use tracing_futures::Instrument;
 
-use tungstenite::connect_async;
 use tungstenite::MaybeTlsStream;
 use tungstenite::WebSocketStream;
 
@@ -59,32 +58,20 @@ async fn connect_internal(url: &Url) -> Result<WebSocketStream<MaybeTlsStream<Tc
       // a custom error message. This may be a breaking change though,
       // so we'll leave it for now.
       let connector = TlsConnector::new()
-        .map_err(|e| Error::Str("Failed to create TLS connector".into()))?;
+        .map_err(|_| Error::Str("Failed to create TLS connector".into()))?;
 
       tungstenite::Connector::NativeTls(connector)
     };
 
     #[cfg(feature = "rustls")]
     let connector = {
+      use hyper_rustls::ConfigBuilderExt;
       use rustls::ClientConfig;
-      use rustls::RootCertStore;
       use std::sync::Arc;
-
-      let mut root_store = RootCertStore::empty();
-      root_store.add_server_trust_anchors(
-        webpki_roots::TLS_SERVER_ROOTS
-          .0
-          .iter()
-          .map(|ta| rustls::OwnedTrustAnchor::from_subject_spki_name_constraints(
-            ta.subject,
-            ta.spki,
-            ta.name_constraints,
-          ))
-      );
 
       let client = ClientConfig::builder()
         .with_safe_defaults()
-        .with_root_certificates(root_store)
+        .with_native_roots()
         .with_no_client_auth();
 
       tungstenite::Connector::Rustls(Arc::new(client))
